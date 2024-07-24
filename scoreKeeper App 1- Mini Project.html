@@ -13,9 +13,11 @@
 
             var score = 0;
             var wicket = 0;
+            let ballWiseResult= [];
 
-            function addOne(){
+           {/* function addOne(){
                 if(wicket < 10)
+
                     score++;
                     console.log(score);
                     renderRoot();
@@ -27,34 +29,63 @@
                     console.log(score);
                     renderRoot();
             }
+        */}
 
            
             function addScore(num){
-                if(wicket < 10)
-                    score = score + num;
+                if(wicket < 10){
+                    ballWiseResult.push(num)
+                    score = score + num;}
                     renderRoot();
             }
 
             function wicketDown(){
-                if(wicket < 10)
-                wicket++;
-                renderRoot();
+                if(wicket < 10){
+                    ballWiseResult.push("W")
+                    wicket++;}
+                    renderRoot();
             }
-
-                        
-            const App = () => (
+            const ScoreButtons =()=>(
                 <>
-                <h1> Score Keeper App </h1>
-                <h2> Score: {score} / {wicket}</h2>
-                <button onClick = {addOne}>1</button>
-                <button onClick = {addTwo}>2</button>
+                <button onClick = {() => addScore(0)}>0</button>
+                <button onClick = {() => addScore(1)}>1</button>
+                <button onClick = {() => addScore(2)}>2</button>
+
+                {/*<button onClick = {addOne}>1</button>
+                <button onClick = {addTwo}>2</button>*/}
                 <button onClick = {() => addScore(3)}>3</button>
                 <button onClick = {() => addScore(4)}>4</button>
                 <button onClick = {() => addScore(5)}>5</button>
                 <button onClick = {() => addScore(6)}>6</button>
                 <button onClick = {wicketDown} style={{backgroundColor: 'red'}}>Wicket</button>
                 </>
+
+
             )
+
+                        
+            const App = () => (
+                <>
+                <h1> Score Keeper App </h1>
+                <h2> Score: {score} / {wicket}</h2>
+                <ScoreButtons/>
+                <BallWiseResult/>
+                </>
+
+            )
+            const BallWiseResult =()=>(
+                <>
+                <div><hr/>
+                    {ballWiseResult.map(
+                        (res,i)=>(
+                            <>{(i%6===0)?<br/>:null}
+                            <span key={i}>{res===0? <strong>.</strong>:(res==="W")?<span style={{color:'#f00'}}>{res}</span>:<span style={{color:'#00ff'}}>{res}</span>}</span>
+                            &nbsp;&nbsp;</>
+                        ))}
+                    </div>
+                </>
+            )
+
             
             const rootElement = ReactDOM.createRoot(document.getElementById("root"));
             function renderRoot(){
